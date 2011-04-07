@@ -1,7 +1,10 @@
 from django.db import models
 
+class MyUser(models.Model):
+	name=models.CharField(max_length=15, default="User")
+
 class Form(models.Model):
-	title=models.CharField(max_length=30)
+	title=models.CharField(max_length=30,default="Form")
 	
 class Question(models.Model):
 	form=models.ForeignKey(Form)
@@ -10,13 +13,15 @@ class Question(models.Model):
 	required=models.CharField(max_length=2)
 	
 class Option(models.Model):
+	#Stores options for a particular multiple-choice type question
+	
 	question=models.ForeignKey(Question)
 	opt=models.CharField(max_length=30)
 	
-class Response(models.Model):
-	form=models.ForeignKey(Form)
+	
+		
+class Responses(models.Model):
 	question=models.ForeignKey(Question)
-	resp=models.CharField(max_length=30)	
-	user=models.CharField(max_length=15)
-		
-		
+	resp=models.CharField(max_length=50,null=True,blank=True)	
+	form=models.ForeignKey(Form)
+	myuser=models.ForeignKey(MyUser)

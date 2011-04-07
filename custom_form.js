@@ -11,12 +11,14 @@ var elemTypes = {
 var currElemType;
 var currElemIndex;
 var optionCount=1;
+var formTitle="Form";
 
 $(document).ready(function() {
     $('#button_remove').toggle();		//Hide remove button when page loads
 	$('#button_add').click(function(){addElement($('#elem_selector').attr('value'))});
 	$('#button_remove').click(removeElement);
 	$('#sbmt').click(submit);
+	$('#button_title').click(updateTitle);
 });
 
 var cleanLabel=function(labeltext) {
@@ -262,9 +264,9 @@ var addElement = function(item) {
 var submit=function() {
 	//submits the created form to the server
 	
-	
+	$('#sbmt').attr("disabled","true")
 	var ellem,i,options,j,options_string="";
-	var form={"types":[]};
+	var form={"title":formTitle,"types":[]};
 	for (ellem in elemTypes) {
 		
 	    if (!elemTypes.hasOwnProperty(ellem)) {
@@ -307,5 +309,12 @@ var submit=function() {
 		}
 	});
 	
+}
+
+var updateTitle = function(){
+	//Updates the title for the form
+	
+	formTitle=$("#input_title").attr('value');
+	$("#form_title").html(formTitle);
 }
 

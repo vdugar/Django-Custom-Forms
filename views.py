@@ -19,7 +19,7 @@ def onSubmit(request):
 		if request.method == 'POST':
 			elems=json.loads(request.raw_post_data)	
 	
-		form=Form.objects.create(title='Form')
+		form=Form.objects.create(title=elems['title'])
 
 	for elem in elems['types']:
 		question=Question.objects.create(form=form,question=elem['question'],ques_type=elem['typ'],required=isRequired(elem['question']))
@@ -39,9 +39,10 @@ def formList(request):
 def clearTables(request):
 	#Clears all database tables
 	
-	Form.objects.all().delete()		
-	Question.objects.all().delete()
+	Responses.objects.all().delete()
 	Option.objects.all().delete()
+	Question.objects.all().delete()
+	Form.objects.all().delete()		
 	
 def displayForm(request,form_id):
 	#Displays the required form and handles submission
@@ -64,18 +65,44 @@ def displayForm(request,form_id):
 	
 	form=CustomForm(request.POST or None, properties=properties)
 	if form.is_valid():
-		answers=[]
 		response=form.cleaned_data
-		"""for key in response:
-			ques=Question.objects.filter(id=int(key)).values()
-			answers.append({'ques':ques['question'],'ans':response[key]})"""
-		return HttpResponseRedirect('/success/')
+		usr=MyUser.objects.create()
+		for key in response:
+			ques=Question.objects.get(id=int(key))
+			Responses.objects.create(form=frm, question=ques, resp=response[key],myuser=usr)
+		return HttpResponseRedirect('/success/'+str(form_id))
 	return render_to_response('form.html',{'form':form})
 	
-def onSuccess(request):
-	#Successful submission
+def onSuccess(request, form_id):
+	#Successful form submission
+	try:
+		form_id=int(form_id)
+	except ValueError:
+		raise Http404
 	
-	return render_to_response('success.html',{})
+	return render_to_response('success.html',{'form_id':form_id})
+	
+def showResults(request,form_id):
+	#Shows the results for a particular form
+	try:
+		form_id=int(form_id)
+	except ValueError:
+		raise Http404
+	
+	form=Form.objects.get(id=form_id)
+	questions=Question.objects.filter(form=form).order_by('id').values_list('question',flat=True)
+	all_responses=Responses.objects.filter(form=form).order_by('myuser_id','question_id').values_list('resp',flat=True)
+	title=form.title
+	#Grouping complete responses together (not the best way, though)
+	responses=[]
+	splitsize=len(all_responses) / len(questions)
+	for i in range(splitsize):
+		responses.append(all_responses[(i*len(questions)):(i*len(questions)+len(questions))])
+	return render_to_response('results.html',{'questions':questions,'responses':responses,'title':title})
+	
+	
+	
+	
 
 
 	
