@@ -1,0 +1,68 @@
+<html>
+	<head>
+		<title>Custom Forms Example</title>
+		<script src="/static/js/jquery-prod.js"></script>
+		<script src="/static/js/json2.js"></script>
+		<script src="/static/js/custom_form.js"></script> 
+		 
+		<link rel="stylesheet" type="text/css" href="/static/stylesheets/style.css">
+	</head>
+	
+	<body>
+		<div class="wrapper">
+			
+			<div class="form_preview">
+				<h2 id='form_title'>Form Preview</h2>
+				<hr />
+				<p class="help_text">Click on a question's label in the form preview area to modify it</p>
+				<br />
+				<form id="preview_form">
+					
+				</form>	
+				<br/><br/>
+				<input type="button" value="Create form" id="sbmt"/>
+			</div>
+			
+			<div class="form_toolbox">
+				<h2>Form Toolbox</h2>
+				<hr />
+				<p>Give your form a title-</p>
+				<form>
+					<input type="text" id="input_title" />
+					<input type="button" id="button_title" value="Update"/>
+				</form>	
+				<br/>
+				<div class="selector">
+					
+					<p>Select item to add-</p>
+					<form>
+						<select id="elem_selector" name="sel" onChange="onSelect($('#elem_selector').attr('value'))">
+							<option value="TextField">Text Field</option>
+							<option value="Name">Name</option>
+							<option value="Gender">Gender</option>
+							<option value="Phone">Phone</option>
+							<option value="Radio">Radio Button Group</option>
+						</select>
+						<br/><br/>
+					</form>
+				</div>
+				<br/>
+				<div class="properties">
+					<p>Modify properties here-</p>
+					<form id="elem_properties">
+						<p><label for="id_question">Question</label></p>
+						<input type="text" id="id_question" name="question"/>
+						<br/><br/>
+						<label for="id_required" onClick="">Required</label>
+						<input type="checkbox" id="id_required" name="required" />
+						<br/>
+						<div id="radio_options"></div>
+					</form>	
+					<br/><br/>
+					<input type="button" id="button_add" value="Add to Form"/> &nbsp;&nbsp;
+					<input type="button" id="button_remove" value="Remove"/>
+				</div>			
+			</div>		
+		</div>	
+	</body>
+</html>			

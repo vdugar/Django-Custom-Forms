@@ -1,0 +1,80 @@
+.wrapper {
+	width:960px;
+	margin:0 auto;
+	background-color:#F0F0F0;
+	
+}
+.form_preview {
+	width:70%;
+	height:800px;
+	background-color:#F0F0F0;
+	float:left;
+	margin:5px 5px;
+	padding:5px;
+	min-height:800px;
+	overflow-y:auto;
+}
+.form_toolbox {
+	width:25%;
+	height:800px;
+	background-color:#F0F0F0;
+	float:right;
+	margin:5px 5px;
+	padding:5px;
+	min-height:800px;
+}
+
+.form_element {
+	display:block;
+	padding:10px 10px;
+}
+
+.selector {
+	height:50px;
+}
+
+.properties {
+	height:500px;
+	margin-top:5px;
+}
+
+.help_text {
+	font-size:14px;
+	font-style:italic;
+}
+
+ul.errorlist {
+	margin: 0;
+	padding: 0;
+}
+.errorlist li {
+	background-color: #C40000;
+	color: white;
+	display: block;
+	font-size: 11px;
+	margin: 0 0 3px;
+	padding: 4px 5px;
+	opacity:0.7;
+}
+
+.results {
+	width:100%;
+}
+
+#tab_res {
+	margin:10px;
+	width:100%;
+}
+
+td, th {
+	padding:2px;
+	text-align:left;
+}
+
+th {
+	border-bottom:2px solid #6678B1;
+}
+
+td {
+	border-bottom:1px solid #6678B1;;
+}
