@@ -14,8 +14,10 @@
 				<p class="help_text">Pick a form to fill out</p>
 				<br />
 				{% for form in forms %}
+					{% if form.active %}
 					<a href='/display/{{form.id}}/'>{{form.title}}</a>
 					<br/>
+					{% endif %}
 				{% endfor %}	
 				
 			</div>

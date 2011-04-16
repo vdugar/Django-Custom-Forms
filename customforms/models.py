@@ -5,6 +5,7 @@ class MyUser(models.Model):
 
 class Form(models.Model):
 	title=models.CharField(max_length=30,default="Form")
+	active=models.IntegerField(max_length=2,default=1)
 	
 class Question(models.Model):
 	form=models.ForeignKey(Form)
@@ -15,6 +16,7 @@ class Question(models.Model):
 class Option(models.Model):
 	#Stores options for a particular multiple-choice type question
 	
+	form=models.ForeignKey(Form)
 	question=models.ForeignKey(Question)
 	opt=models.CharField(max_length=30)
 	

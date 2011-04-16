@@ -1,10 +1,12 @@
 from django.shortcuts import redirect, render_to_response, HttpResponse
 from django.http import Http404,HttpResponseRedirect
 from django.template import RequestContext
+from django.db import connection
 from forms import CustomForm
 from django.utils import simplejson as json
 from customforms.models import *
 from customforms.useful import *
+from customforms.backups import *
 
 
 def landing(request):
@@ -33,7 +35,7 @@ def onSubmit(request):
 			options=elem['opts'].split(',')
 			for i in options:
 				if i!='':
-					Option.objects.create(question=question,opt=i)
+					Option.objects.create(question=question,opt=i,form=form)
 	
 	#Generating the dynamic model and creating the table
 	dyn_model=dynamic_model(int(form.id))
@@ -140,7 +142,50 @@ def showResults(request,form_id):
 	
 	return render_to_response('results.html',{'questions':questions_list,'responses':dyn_responses,'title':title})
 	
+
+def deleteForm(form_id):
+	# Takes a backup of the form, and deletes it completely
 	
+	try:
+		form_id=int(form_id)
+	except ValueError:
+		raise Http404
+	
+	form=Form.objects.get(id=form_id)
+	
+	#Storing to file
+	dumpToFile(form)
+	
+	#Performing deletions
+	Option.objects.filter(form=form).delete()
+	Question.objects.filter(form=form).delete()
+	
+	#Dropping response table
+	table_name='customforms_response_form_'+str(form.id)
+	sqlite_query='DROP TABLE '+table_name
+	cursor=connection.cursor()
+	cursor.execute(sqlite_query)
+	
+	#Changing status of form to '0' to show that it's been deleted
+	form.active=0;
+	form.save();
+	
+def restoreForm(form_id):
+	#Restores the specified form from the backup file
+	
+	try:
+		form_id=int(form_id)
+	except ValueError:
+		raise Http404
+		
+	form=Form.objects.get(id=form_id)
+	
+	#Restoring from file
+	restoreFromFile(form)
+	
+	#Changing status of form to '1' to show that it's been deleted
+	form.active=1;
+	form.save();	
 	
 	
 
