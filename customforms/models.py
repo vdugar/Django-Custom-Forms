@@ -23,6 +23,8 @@ class Option(models.Model):
 	
 		
 class Responses(models.Model):
+	#The static table for responses. NOT being used currently.
+	
 	question=models.ForeignKey(Question)
 	resp=models.CharField(max_length=50,null=True,blank=True)	
 	form=models.ForeignKey(Form)

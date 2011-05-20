@@ -39,7 +39,9 @@ def onSubmit(request):
 	
 	#Generating the dynamic model and creating the table
 	dyn_model=dynamic_model(int(form.id))
-	run_sql(dyn_model)
+	
+	#Setting up the SQL using South migrations now
+	#run_sql(dyn_model)
 	
 	return HttpResponse('OK')
 	
@@ -101,6 +103,7 @@ def displayForm(request,form_id):
 	
 def onSuccess(request, form_id):
 	#Successful form submission
+	
 	try:
 		form_id=int(form_id)
 	except ValueError:

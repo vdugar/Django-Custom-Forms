@@ -49,7 +49,7 @@ def isReq(text):
 		return False	
 
 def dynamic_model(form_id):
-	# Figures out the fields for the model
+	# Figures out the fields for the model, and returns the dynamic model
 	
 	frm=Form.objects.get(id=form_id)
 	fields={}
