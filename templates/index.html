@@ -24,44 +24,70 @@
 			</div>
 			
 			<div class="form_toolbox">
-				<h2>Form Toolbox</h2>
-				<hr />
-				<p>Give your form a title-</p>
-				<form>
-					<input type="text" id="input_title" />
-					<input type="button" id="button_title" value="Update"/>
-				</form>	
-				<br/>
-				<div class="selector">
-					
-					<p>Select item to add-</p>
-					<form>
-						<select id="elem_selector" name="sel" onChange="onSelect($('#elem_selector').attr('value'))">
-							<option value="TextField">Text Field</option>
-							<option value="Name">Name</option>
-							<option value="Gender">Gender</option>
-							<option value="Phone">Phone</option>
-							<option value="Radio">Radio Button Group</option>
-						</select>
-						<br/><br/>
-					</form>
+				<div id="toolbox_header"> 
+					<ul>
+						<li>Form Information</li>
+						<li>Form Fields</li>
+					</ul>
 				</div>
-				<br/>
-				<div class="properties">
-					<p>Modify properties here-</p>
-					<form id="elem_properties">
-						<p><label for="id_question">Question</label></p>
-						<input type="text" id="id_question" name="question"/>
-						<br/><br/>
-						<label for="id_required" onClick="">Required</label>
-						<input type="checkbox" id="id_required" name="required" />
-						<br/>
-						<div id="radio_options"></div>
+				
+				<div id="toolbox_content">
+					<!--
+					<p>Give your form a title-</p>
+					<form>
+						<input type="text" id="input_title" />
+						<input type="button" id="button_title" value="Update"/>
 					</form>	
-					<br/><br/>
-					<input type="button" id="button_add" value="Add to Form"/> &nbsp;&nbsp;
-					<input type="button" id="button_remove" value="Remove"/>
-				</div>			
+					<br/>
+					-->
+				
+					<div id="field_selector">
+						<br/>
+						<table border="0">
+							<tr>
+								<td>
+									<p>Field Category</p>
+								</td>
+								<td>
+									<select id="cat_selector" onChange="onSelectCategory($('#cat_selector').attr('value'))">
+										<option value="Generic" selected="selected">Generic</option>
+										<option value="Personal">Personal Information</option>
+										<option value="Program">Dummy Program</option>
+									</select>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<p>Field</p>
+								</td>
+								<td>
+									<select id="elem_selector" onChange="onSelectElem($('#elem_selector').attr('value'))">
+										
+									</select>
+								</td>
+							</tr>		
+						</table>					
+					</div>
+					
+					<div id="field_properties">
+						
+						<p class="toolboxText">Question Text</p>
+						<textarea name="question" id="id_question" rows=4 cols=30></textarea>
+						<p class="toolboxText">Instructions for user</p>
+						<textarea name="instructions" id="id_instructions" rows=4 cols=40></textarea>
+						<p class="toolboxText">Required&nbsp;
+							<input type="checkbox" id="id_required" name="required" /></p><br/>
+						<form id="elem_properties">
+							<div id="multi_options"></div>
+						</form>
+						<div id="other_options">
+						</div>		
+						<br/><br/>
+						<input type="button" id="button_add" value="Add to Form"/> &nbsp;&nbsp;
+						<input type="button" id="button_remove" value="Remove"/>
+					</div>
+				</div>
+							
 			</div>		
 		</div>	
 	</body>

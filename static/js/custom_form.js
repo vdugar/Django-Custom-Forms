@@ -1,3 +1,26 @@
+//Defining the master 'list' for form elements
+var formElements={
+	'Generic':[
+		{'name':'textField', 'disp_name':'Single Line Text'},
+		{'name':'longAns', 'disp_name':'Long Answer'},
+		{'name':'reallyLongAns', 'disp_name':'Really Long Answer'},
+		{'name':'radio', 'disp_name':'Radio Button Group'},
+		{'name':'dropdown', 'disp_name':'Dropdown List'},
+		{'name':'number', 'disp_name':'Numeric Field'},
+		{'name':'date', 'disp_name':'Date'},
+		{'name':'time', 'disp_name':'Time'},
+		{'name':'file', 'disp_name':'File Upload'}],
+	'Personal':[
+		{'name':'name', 'disp_name':'Name'},
+		{'name':'gender', 'disp_name':'Gender'},
+		{'name':'phone', 'disp_name':'Phone no.'},
+		{'name':'email', 'disp_name':'Email'},
+		{'name':'address', 'disp_name':'Address'},
+		{'name':'state', 'disp_name':'State'},
+		{'name':'city', 'disp_name':'City'}],
+	'Program':[]	
+}
+
 var elemTypes = {
 	// Stores the available types of form objects, and their number in the form
 	
@@ -8,10 +31,7 @@ var elemTypes = {
 	'radio':0
 };
 
-var currElemType;
-var currElemIndex;
-var optionCount=1;
-var formTitle="Form";
+var currElemType, currElemIndex, optionCount=1, formTitle="Form";
 
 $(document).ready(function() {
     $('#button_remove').toggle();		//Hide remove button when page loads
@@ -19,6 +39,10 @@ $(document).ready(function() {
 	$('#button_remove').click(removeElement);
 	$('#sbmt').click(submit);
 	$('#button_title').click(updateTitle);
+	
+	//'Initializing' the UI
+	onSelectCategory('Generic');
+	onSelectElem('textField');
 	
 	$('html').ajaxSend(function(event, xhr, settings) {
 	    function getCookie(name) {
@@ -42,6 +66,8 @@ $(document).ready(function() {
 	    }
 	});
 });
+
+
 
 var cleanLabel=function(labeltext) {
 	// Strips the * sign from the label text
@@ -97,7 +123,7 @@ var onClickLabel=function(event) {
 	var $curr_label=$(event.target);
 	currElemType=$curr_label.attr('id').split('_')['1'];
 	if(currElemType!='radio')
-		$('#radio_options').children().each(function(idx,el) {$(el).remove()});
+		$('#multi_options').children().each(function(idx,el) {$(el).remove()});
 	currElemIndex=$curr_label.attr('id').split('_')['2'];
 	$('#id_question').attr('value',cleanLabel($curr_label.html()));
 	if($curr_label.html().indexOf('*')== -1)
@@ -133,27 +159,43 @@ var removeOption=function(event) {
 	$(event.target).parent().remove();
 }
 
-var onSelect = function(item) {
+var onSelectCategory=function(category) {
+	//Populates the Field selector with the appropriate form fields
+	
+	fields_list=formElements[category];
+	//Generating Options list
+	options_html="";
+	$.each(fields_list, function(index,elem){
+		options_html+="<option value="+elem['name']+">"+elem['disp_name']+"</option>";
+	});
+	//Populating options for the Field Selector
+	$("#elem_selector").html(options_html);
+	
+	//'Initializing' it with first field element
+	onSelectElem(fields_list[0]['name']);
+}
+
+var onSelectElem = function(item) {
 	//Populates the properties fields when a form item is selected from the list
 	
-	$('#radio_options').children().each(function(idx,el) {$(el).remove()});
+	$('#multi_options').children().each(function(idx,el) {$(el).remove()});
 	var $option,$wrap_option;
 	var i;
 	if (($('#button_remove').is(":visible")))
 		toggleButtons();
 	var question_text="";
-	if(item=="Name")
+	if(item=="name")
 		question_text="Name";
-	else if(item=="Gender")
+	else if(item=="gender")
 		question_text="Gender";
-	else if(item=="Phone")
+	else if(item=="phone")
 		question_text="Phone";
-	else if(item=="Radio"){
+	else if(item=="radio"){
 		question_text="Radio";
 		for(i=1;i<=2;i++) {
 			$wrap_option=$('<div></div>');
 			$wrap_option.addClass('option_element');
-			$wrap_option.appendTo('#radio_options');
+			$wrap_option.appendTo('#multi_options');
 			$option=$('<input/>', {
 				type:"text",
 				value:"Option",
@@ -182,7 +224,7 @@ var addElement = function(item) {
 	if($('#id_required').attr('checked'))
 		label_text+="*";
 	
-	if(item=="Name"){
+	if(item=="name"){
 		$new_elem=$('<input/>', {
 			type:"text",
 			name:"name_"+elemTypes['name'],
@@ -201,7 +243,7 @@ var addElement = function(item) {
 		$('<br />').appendTo($wrap);
 	}
 	
-	else if(item=="Phone"){
+	else if(item=="phone"){
 		$new_elem=$('<input/>', {
 			type:"text",
 			name:"phone_"+elemTypes['phone']
@@ -219,7 +261,7 @@ var addElement = function(item) {
 		$('<br />').appendTo($wrap);
 	}
 	
-	else if(item=="Gender"){
+	else if(item=="gender"){
 		$('<label>'+label_text+'</label>').click(onClickLabel).appendTo($wrap).attr('id','label_gender_'+elemTypes['gender']);
 		$('<br />').appendTo($wrap);
 		$new_elem=$('<input/>', {
@@ -242,7 +284,7 @@ var addElement = function(item) {
 		$('<br />').appendTo($wrap);
 	}
 	
-	else if(item=="TextField"){
+	else if(item=="textField"){
 		$new_elem=$('<input/>', {
 			type:"text",
 			name:"textField_"+elemTypes['textField'],
@@ -260,7 +302,7 @@ var addElement = function(item) {
 		$('<br />').appendTo($wrap);
 	}
 	
-	else if(item=="Radio") {
+	else if(item=="radio") {
 		var $text_inputs=$('#elem_properties :text');
 		$('<label>'+label_text+'</label>').click(onClickLabel).appendTo($wrap).attr('id','label_radio_'+elemTypes['radio']);
 		$('<br />').appendTo($wrap);
