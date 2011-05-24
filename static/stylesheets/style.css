@@ -24,6 +24,22 @@ body {
 	overflow-y:auto;
 }
 
+.field_wrapper {
+	display:block;
+	padding:10px 10px;
+}
+
+.field_wrapper p{
+	margin:0px;
+	padding:0px;
+}
+
+.asterisk {
+	color:#FF0000;
+}
+
+/* End Form Preview Area */
+
 /* Form Toolbox */
 .form_toolbox {
 	width:360px;
@@ -64,11 +80,6 @@ body {
 	font-weight:bold;
 }
 
-.form_element {
-	display:block;
-	padding:10px 10px;
-}
-
 #field_selector {
 	margin:5px;
 	padding:5px;
@@ -82,6 +93,7 @@ body {
 	padding:5px;
 	border: 1px solid;
 }
+/* End Form Toolbox */
 
 .help_text {
 	font-size:14px;
