@@ -13,7 +13,7 @@ body {
 }
 
 /* Form Preview Area */
-.form_preview {
+.preview_area {
 	width:586px;
 	height:800px;
 	background-color:#FFF;
@@ -27,6 +27,7 @@ body {
 .field_wrapper {
 	display:block;
 	padding:10px 10px;
+	position:relative;
 }
 
 .field_wrapper p{
@@ -34,8 +35,31 @@ body {
 	padding:0px;
 }
 
+.wrapper_button {
+	position:absolute;
+	top:0;
+	right:0;
+	display:none;
+	color:#FF0000;
+}
+
+.wrapper_button_hover {
+	display:block;
+}
+
 .asterisk {
 	color:#FF0000;
+}
+
+.field_hover {
+	border:2px dashed blue;
+	padding:8px 8px;
+}
+
+.field_selected {
+	background-color:#d2f8ff;
+	border:1px dashed blue;
+	padding:9px 9px;
 }
 
 /* End Form Preview Area */
