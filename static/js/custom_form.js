@@ -8,9 +8,10 @@ var formElements={
 		radio:{'disp_name':'Radio Button Group','ques':'Pick an option'},
 		dropdown:{'disp_name':'Dropdown List','ques':'Pick an option'},
 		numeric:{'disp_name':'Numeric Field','ques':''},
-		date:{'disp_name':'Date','ques':''},
-		time:{'disp_name':'Time','ques':''},
-		file:{'disp_name':'File Upload','ques':''}
+		date:{'disp_name':'Date','ques':'Date'},
+		time:{'disp_name':'Time','ques':'Time'},
+		file:{'disp_name':'File Upload','ques':'Upload file'},
+		section:{'disp_name':'Section', 'ques':'Section'}
 	},
 	'Personal':{
 		name:{'disp_name':'Name','ques':'Your name'},
@@ -53,7 +54,7 @@ var covenience = {
 var currElemType, currElemIndex, optionCount=1, formTitle="Form",currCategory='',$prevField, $currField;
 
 $(document).ready(function() {
-    $('#button_add').click(function(){addElement($('#elem_selector').attr('value'),$prevField)});
+    $('#button_add').click(function(){insertField($('#elem_selector').attr('value'),$prevField)});
 	$('#sbmt').click(submit);
 	$('#button_title').click(updateTitle);
 	
@@ -235,6 +236,9 @@ var onSelectElem = function(item) {
 		$range_div.append($('<span>Min</span>')).append($minInput).append('&nbsp;&nbsp;').append($('<span>Max</span>')).append($maxInput);
 		$range_div.appendTo($('#other_options'));
 	}
+	else if(item=='section'){
+		$('#id_instructions').attr('value','Enter a short description about the section');
+	}
 	
 	//Defining actions for 'personal' fields
 	
@@ -243,7 +247,7 @@ var onSelectElem = function(item) {
 	$('#id_question').attr('value',question_text);
 	$prevField=$('div.form_preview :last-child').filter('div.field_wrapper');
 	if($button.attr('value')!='Add to Form')
-		$button.attr('value','Add to Form').unbind('click').click(function(){addElement($('#elem_selector').attr('value'),$prevField)});
+		$button.attr('value','Add to Form').unbind('click').click(function(){insertField($('#elem_selector').attr('value'),$prevField)});
 };
 
 var updateField=function() {
@@ -269,6 +273,7 @@ var onSelectField=function() {
 	
 	if(question_text.indexOf("*")!=-1)
 		$("#id_required").attr('checked','checked');
+	else $("#id_required").attr('checked','');
 	$("#id_question").attr('value',cleanLabel(question_text));
 	$("#id_instructions").attr('value',field_data.help_text);
 	
@@ -303,10 +308,20 @@ var onSelectField=function() {
 		$range_div.append($('<span>Min</span>')).append($minInput).append('&nbsp;&nbsp;').append($('<span>Max</span>')).append($maxInput);
 		$range_div.appendTo($('#other_options'));
 	}
+	else if(field_data.field_type=='section'){
+		$("#id_question").attr('value',$wrap.find('h2').text());
+	}
 	if($button.attr('value')=='Add to Form')
 		$button.attr('value','Update').unbind('click').click(updateField);
 		
 };
+
+var insertField=function(item, $prevField){
+	//Handles addition of a field into the form, as well as other ancillary functions. Calls addElement()
+	
+	addElement(item,$prevField);
+	onSelectElem(item);
+}
 
 var addElement = function(item,$prevField) {
 	
@@ -400,6 +415,59 @@ var addElement = function(item,$prevField) {
 		data.min=$('#id_minVal').attr('value');
 		data.max=$('#id_maxVal').attr('value');
 	}
+	else if(item=='date'){
+		$new_elem=$("<div>", {
+			id:html_id
+		});
+		var $mm,$dd,$yyyy;
+		$mm=$('<input/>', {
+			type:"text",
+			name:html_name+"_mm",
+			size:"2",
+			value:"mm"
+		});
+		$dd=$('<input/>', {
+			type:"text",
+			name:html_name+"_dd",
+			size:"2",
+			value:"dd"
+		});
+		$yyyy=$('<input/>', {
+			type:"text",
+			name:html_name+"_yy",
+			size:"4",
+			value:"yyyy",
+		});
+		$new_elem.append($('<p>').append($mm).append($('<span> / </span>')).append($dd).append($('<span> / </span>')).append($yyyy));
+	}
+	else if(item=='time'){
+		$new_elem=$("<div>", {
+			id:html_id
+		});
+		var $hh,$m,$ss,$ampm;
+		$hh=$('<input/>', {
+			type:"text",
+			name:html_name+"_hh",
+			size:"2",
+			value:"hh"
+		});
+		$m=$('<input/>', {
+			type:"text",
+			name:html_name+"_m",
+			size:"2",
+			value:"mm"
+		});
+		$ss=$('<input/>', {
+			type:"text",
+			name:html_name+"_ss",
+			size:"2",
+			value:"ss"
+		});
+		$ampm=$('<select>', {
+			name:html_name+"_ampm"
+		}).append($('<option value="AM">AM</option>')).append($('<option value="PM">PM</option>'));
+		$new_elem.append($('<p>').append($hh).append($('<span> : </span>')).append($m).append($('<span> : </span>')).append($ss).append('&nbsp;').append($ampm));
+	}
 	else if(item=="file"){
 		$new_elem=$('<input/>', {
 			type:"file",
@@ -408,56 +476,71 @@ var addElement = function(item,$prevField) {
 			size:"40"
 		});
 	}
-	else if(item=="name"){
-		$new_elem=$('<input/>', {
-			type:"text",
-			name:html_name,
-			id:html_id
-		});
-		
-		$new_elem.appendTo($wrap);
-		$('<br />').appendTo($wrap);
+	else if(item=='section'){
+		$new_elem=$('<div>').addClass('section_header').append('<hr/>').append($('<h2>'+label_text+'</h2>')).append($('<p class="field_text">'+help_text+'</p>'));
+		$new_elem_label.remove();
 	}
 	
+	//'Personal Information' Fields
+	else if(item=="name"){
+		$new_elem=$('<div>').css('display','inline-block');
+		var $first_div, $last_div;
+		$first_div=$('<div>').append($('<input/>',{
+			type:'text',
+			size:'20'
+		})).append($('<p class="field_text">First</p>')).css('float','left');
+		$last_div=$('<div>').append($('<input/>',{
+			type:'text',
+			size:'20'
+		})).append($('<p class="field_text">Last</p>')).css('float','left');
+		$new_elem.append($first_div).append($last_div).append('<br/>');
+	}
+	else if(item=='gender'){
+		$new_elem=$('<p>');
+		$new_elem.append($('<input/>', {
+			type:'radio',
+			value:'Male',
+			name:'gender'
+		})).append($('<span class="field_text">Male&nbsp;&nbsp;</span>')).append($('<input/>', {
+				type:'radio',
+				value:'Female',
+				name:'gender'
+		})).append($('<span class="field_text">Female</span>'))
+	}	
 	else if(item=="phone"){
 		$new_elem=$('<input/>', {
 			type:"text",
-			name:"phone_"+elemTypes['phone']
+			size:'30'
 		});
-		$new_elem.attr('id',"id_phone_"+elemTypes['phone']);
-		$new_elem_label=$('<label>'+label_text+'</label>');
-		$new_elem_label.attr({
-			'for':$new_elem.attr('id'),
-			id:'label_phone_'+elemTypes['phone']++
-		});
-		$new_elem_label.click(onClickLabel);
-		$new_elem_label.appendTo($wrap);
-		$('<br />').appendTo($wrap);
-		$new_elem.appendTo($wrap);
-		$('<br />').appendTo($wrap);
 	}
-	
-	else if(item=="gender"){
-		$('<label>'+label_text+'</label>').click(onClickLabel).appendTo($wrap).attr('id','label_gender_'+elemTypes['gender']);
-		$('<br />').appendTo($wrap);
+	else if(item=='email'){
 		$new_elem=$('<input/>', {
-			type:"radio",
-			name:"gender_"+elemTypes['gender'],
-			value:"Male"
+			type:"email",
+			size:'30'
 		});
-		$new_elem_label=$('<label>Male<label>');
-		$new_elem_label.appendTo($wrap);
-		$new_elem.appendTo($wrap);
-		
+	}
+	else if(item=='address'){
+		$new_elem=$('<div>');
+		$new_elem.append($('<p class="field_text">Street Address</p>')).append($('<textarea>',{
+			'rows':4,
+			'cols':22
+		}));
+		$new_elem.append($('<p>').append($('<span class="field_text">City&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>')).append($('<input/>', {
+			type:'text',
+			size:'20'
+		})).append('&nbsp;&nbsp;').append($('<span class="field_text">State</span>')).append($('<select>')));
+		$new_elem.append($('<p>').append($('<span class="field_text">Zip code</span>')).append($('<input/>',{
+			type:'text'
+		})));
+	}
+	else if(item=='state'){
+		$new_elem=$('<select>');
+	}
+	else if(item=='city'){
 		$new_elem=$('<input/>', {
-		type:"radio",
-		name:"gender_"+elemTypes['gender']++,
-		value:"Female"
+			type:"text",
+			size:'30'
 		});
-		$new_elem_label=$('<label>Female<label>');
-		$new_elem_label.appendTo($wrap);
-		$new_elem.appendTo($wrap);
-		$('<br />').appendTo($wrap);
 	}
 	
 	elemTypes[item]++;
@@ -467,6 +550,10 @@ var addElement = function(item,$prevField) {
 		$wrap.prependTo($('div.form_preview'));
 	else
 		$wrap.insertAfter($prevField);
+	
+	//Making fields draggable
+	$('div.form_preview').sortable();
+	
 	return $wrap;
 };
 

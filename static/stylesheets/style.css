@@ -62,6 +62,26 @@ body {
 	padding:9px 9px;
 }
 
+.field_text {
+	font-size:0.9em;
+	font-style:italic;
+	margin:0px;
+	padding:0px;
+}
+
+.section_header h2{
+	margin:0px;
+	padding:0px;
+}
+
+.section_header hr{
+	color: blue;
+	background-color: blue;
+	height: 1px;
+	width: 100%;
+	text-align: left;
+}
+
 /* End Form Preview Area */
 
 /* Form Toolbox */

@@ -1,7 +1,8 @@
 <html>
 	<head>
 		<title>Custom Forms Example</title>
-		<script src="/static/js/jquery-prod.js"></script>
+		<script src="/static/js/jquery-1.5.1.min.js"></script>
+		<script src="/static/js/jquery-ui-1.8.13.custom.min.js"></script>
 		<script src="/static/js/json2.js"></script>
 		<script src="/static/js/custom_form.js"></script> 
 		 
@@ -14,7 +15,6 @@
 			<div class="preview_area">
 				<h2 id='form_title'>Form Preview</h2>
 				<hr />
-				<p class="help_text">Click on a question's label in the form preview area to modify it</p>
 				<br /><br/>
 				<div class="form_preview"></div>
 				<!--<input type="button" value="Create form" id="sbmt"/>-->
@@ -68,7 +68,7 @@
 					
 					<div id="field_properties">
 						
-						<p class="toolboxText">Question Text</p>
+						<p class="toolboxText">Field label</p>
 						<textarea name="question" id="id_question" rows=4 cols=30></textarea>
 						<p class="toolboxText">Instructions for user</p>
 						<textarea name="instructions" id="id_instructions" rows=4 cols=40></textarea>
