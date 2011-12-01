@@ -16,6 +16,7 @@ http://minus.com/mbaSZQYcBx#1o
 Features ->
 * Intuitive drag-n-drop GUI to build forms, add/remove form fields, add instructions for questions,
 move things around etc.
+* New forms can be based on older forms that a user may have created.
 * Ability to define custom validation for fields (word/character limits, 'correct' answers for multiple choice 
 questions etc.)
 * Along with generic field such as TextFields and Radio Groups, the form builder provides customized fields such as
