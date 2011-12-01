@@ -1,5 +1,5 @@
-This is the partial implementation of a Django-based custom form builder. The full implementation was done as part of a Google
-Summer of Code project for Learning Unlimited (learningu.org), under the mentorship of Michael Price. 
+This is the partial implementation of a Django-based custom form builder. The full implementation was done as part of a 
+Google Summer of Code project for Learning Unlimited (learningu.org), under the mentorship of Michael Price. 
 LU's source code is available at-
 https://github.com/learning-unlimited/ESP-Website/
 
@@ -16,7 +16,8 @@ http://minus.com/mbaSZQYcBx#1o
 Features ->
 * Intuitive drag-n-drop GUI to build forms, add/remove form fields, add instructions for questions,
 move things around etc.
-* Ability to define custom validation for fields (word/character limits, 'correct' answers for multiple choice questions etc.)
+* Ability to define custom validation for fields (word/character limits, 'correct' answers for multiple choice 
+questions etc.)
 * Along with generic field such as TextFields and Radio Groups, the form builder provides customized fields such as
 Name, Phone No., Address etc., and automatically takes care of the validation
 * Supports multi-section and multi-page forms
@@ -24,11 +25,11 @@ Name, Phone No., Address etc., and automatically takes care of the validation
 * Forms are validated both client-side and server-side
 * In addition to creating anonymous forms (doesn't require the person filling it to be logged in), you can specify
 finer viewing permissions (eg. 'Is a Student of Program XYZ')
-* Responses from forms are stored in dynamically generated Django models (so every form has its own response table in the
-DB)
+* Responses from forms are stored in dynamically generated Django models (so every form has its own response 
+table in the DB)
 * Responses to non-anonymous forms are linked to the user filling them out
-* Form creators can view responses to their form via a Dojo DataGrid, and can perform certain basic client-side queries
-on them (such as applying comples filters). They can also download their data as an excel file.
+* Form creators can view responses to their form via a Dojo DataGrid, and can perform certain basic 
+client-side queries on them (such as applying comples filters). They can also download their data as an excel file.
 
 {!! Experimental !!} ->
 (For those not familiar with Django, it implements an ORM which abstracts over your database. So, tables in your database
