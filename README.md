@@ -1,25 +1,19 @@
 # Summary
 
 This is the partial implementation of a Django-based custom form builder. The full implementation was done as part of a 
-Google Summer of Code project for Learning Unlimited (learningu.org), under the mentorship of Michael Price. 
+*Google Summer of Code* project for [Learning Unlimited](learningu.org), under the mentorship of Michael Price. 
 
-LU's source code is available at-
+LU's complete source code is available [here](https://github.com/learning-unlimited/ESP-Website/)
 
-https://github.com/learning-unlimited/ESP-Website/
-
-Most of the Python code for the complete implementation is at-
-
-https://github.com/learning-unlimited/ESP-Website/tree/main/esp/esp/customforms
+Most of the Python code for the complete implementation of customforms is [here](https://github.com/learning-unlimited/ESP-Website/tree/main/esp/esp/customforms)
 
 Most of the front-end Javascript code is at-
 
-https://github.com/learning-unlimited/ESP-Website/blob/main/esp/public/media/scripts/custom_form.js
+* https://github.com/learning-unlimited/ESP-Website/blob/main/esp/public/media/scripts/custom_form.js
 
-https://github.com/learning-unlimited/ESP-Website/blob/main/esp/public/media/scripts/customforms_response.js
+* https://github.com/learning-unlimited/ESP-Website/blob/main/esp/public/media/scripts/customforms_response.js
 
-Here's a rough version of a rendered form-
-
-http://minus.com/mbaSZQYcBx#1o
+[Here](http://minus.com/mbaSZQYcBx#1o) is a screenshot of a basic rendered form.
 
 ## Features
 
