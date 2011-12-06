@@ -1,7 +1,7 @@
 # Summary
 
 This is the partial implementation of a Django-based custom form builder. The full implementation was done as part of a 
-[**Google Summer of Code**](http://code.google.com/soc/) project for [Learning Unlimited](learningu.org), under the mentorship of Michael Price. 
+[**Google Summer of Code**](http://code.google.com/soc/) project for [Learning Unlimited](http://www.learningu.org), under the mentorship of Michael Price. 
 
 LU's complete source code is available [here](https://github.com/learning-unlimited/ESP-Website/).
 
